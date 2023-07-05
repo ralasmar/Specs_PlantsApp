@@ -29,7 +29,6 @@ public class UserServiceImpl implements UserService {
         return response;
     }
     @Override
-    @Transactional
     public List<String> userLogin(UserDto userDto) {
         List<String> response = new ArrayList<>();
         Optional<User> userOptional = userRepository.findByUsername(userDto.getUsername());
