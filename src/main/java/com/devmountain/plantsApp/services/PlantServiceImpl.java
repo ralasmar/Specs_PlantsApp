@@ -16,13 +16,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class PlantServiceImpl {
+public class PlantServiceImpl implements PlantService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private PlantRepository plantRepository;
 
     //adding a plant
+    @Override
     @Transactional
     public void addPlant(PlantDto plantDto, Long userId){
         Optional<User> userOptional = userRepository.findById(userId);
@@ -31,12 +32,14 @@ public class PlantServiceImpl {
         plantRepository.saveAndFlush(plant);
     }
     //deleting a plant
+    @Override
     @Transactional
     public void deletePlantById(Long plantId){
         Optional<Plant> plantOptional = plantRepository.findById((plantId));
         plantOptional.ifPresent(plant -> plantRepository.delete(plant));
     }
     //updating a plant
+    @Override
     @Transactional
     public void updatePlantById(PlantDto plantDto){
         Optional<Plant> plantOptional = plantRepository.findById(plantDto.getId());
@@ -48,6 +51,7 @@ public class PlantServiceImpl {
         });
     }
     //finding all plants
+    @Override
     public List<PlantDto> getAllPlantsByUserId(Long userId){
         Optional<User> userOptional = userRepository.findById(userId);
         if(userOptional.isPresent()){
@@ -57,6 +61,7 @@ public class PlantServiceImpl {
         return Collections.emptyList();
     }
     //getting a plant by id
+    @Override
     public Optional<PlantDto> getPlantById(Long plantId){
         Optional<Plant> plantOptional = plantRepository.findById(plantId);
         if(plantOptional.isPresent()){
