@@ -20,7 +20,7 @@ public class UpdateController {
         return updateService.getAllUpdatesByPlantId(plantId);
     }
     //add a new update
-    @PostMapping("/plant/{plantId")
+    @PostMapping("/plant/{plantId}")
     public void addPlant(@RequestBody UpdateDto updateDto, @PathVariable Long plantId){
         updateService.addUpdate(updateDto, plantId);
     }
@@ -35,7 +35,7 @@ public class UpdateController {
         updateService.EditUpdateById(updateDto);
     }
     //get an update by update id
-    @GetMapping("/{updateId")
+    @GetMapping("/{updateId}")
     public Optional<UpdateDto> getUpdateById(@PathVariable Long updateId){
         return updateService.getUpdateById(updateId);
     }

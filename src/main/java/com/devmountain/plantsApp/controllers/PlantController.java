@@ -17,17 +17,17 @@ public class PlantController {
     private PlantService plantService;
 
     //get all plants by user
-    @GetMapping("/user/{userId")
+    @GetMapping("/user/{userId}")
     public List<PlantDto> getPlantsByUser(@PathVariable Long userId){
         return plantService.getAllPlantsByUserId(userId);
     }
     //add a new plant
-    @PostMapping("/user/{userId")
+    @PostMapping("/user/{userId}")
     public void addPlant(@RequestBody PlantDto plantDto, @PathVariable Long userId){
         plantService.addPlant(plantDto, userId);
     }
     //delete a plant
-    @DeleteMapping("/{plantId")
+    @DeleteMapping("/{plantId}")
     public void deletePlantById(@PathVariable Long plantId){
         plantService.deletePlantById(plantId);
     }

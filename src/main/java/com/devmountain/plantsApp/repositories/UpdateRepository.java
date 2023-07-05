@@ -10,5 +10,5 @@ import java.util.List;
 
 @Repository
 public interface UpdateRepository extends JpaRepository<Update, Long> {
-    List<Update> findAllByUserEquals(Plant plant);
+    List<Update> findAllByPlantEquals(Plant plant);
 }

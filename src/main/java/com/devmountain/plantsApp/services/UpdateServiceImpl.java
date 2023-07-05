@@ -54,7 +54,7 @@ public class UpdateServiceImpl implements UpdateService {
     public List<UpdateDto> getAllUpdatesByPlantId(Long plantId){
         Optional<Plant> plantOptional = plantRepository.findById(plantId);
         if(plantOptional.isPresent()){
-            List<Update> updateList = updateRepository.findAllByUserEquals(plantOptional.get());
+            List<Update> updateList = updateRepository.findAllByPlantEquals(plantOptional.get());
             Optional<Object> plantList;
             return updateList.stream().map(update -> new UpdateDto(update)).collect(Collectors.toList());
         }
