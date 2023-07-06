@@ -10,14 +10,16 @@
     <title>Home</title>
 </head>
 <body>
-    <a href="./login.html">Logout</a>
+    <a class="btn btn-danger navbar-btn" href="./login.html" onclick="handleLogout()">Logout</a>
     <div class="container" id="home-container">
         <div id="plant-form-container">
-            <form action="" id="plant-form">
+            <form id="plant-form">
                 <div class="form-group">
-                    <textarea name="" id="plant-input" class="form-control" placeholder="Add plant" rows="5"></textarea>
+                    <textarea name="" id="plant-input" class="form-control" placeholder="Plant name" rows="1" ></textarea>
+                    <textarea name="" id="photo-input" class="form-control" placeholder="Photo Url" rows="1" ></textarea>
+                    <textarea name="" id="plant-notes-input" class="form-control" placeholder="Notes" rows="5" ></textarea>
                 </div>
-                <button id="submit-button" type="submit" class="btn btn-primary mt-1">Submit</button>
+                <button id="submit-button" type="submit" class="btn btn-primary mt-1">Add New Plant</button>
             </form>
             <div id="plant-container" class="container-fluid"></div>
         </div>
@@ -31,7 +33,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body d-flex">
-                    <textarea class="form-control" rpws="5" id="plant-body"></textarea>
+                    <textarea class="form-control" rows="5" id="plant-body"></textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -40,7 +42,6 @@
             </div>
         </div>
     </div>
-
     <script src="./javascript/home.js" type="application/javascript"></script>
 </body>
 </html>
