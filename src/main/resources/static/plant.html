@@ -19,7 +19,7 @@
     <div id="plant-details">
         <p><strong>Plant Name:</strong> <span id="plant-name"></span></p>
         <img id="plant-image" src="" class="plant-image"/>
-        <p><strong>Plant Health Rating:</strong> <span id="plant-health-rating"></span></p>
+        <p><strong>Plant Notes:</strong> <span id="plant-update"></span></p>
         <div id="rating-stars" class="rating-stars">
             <span class="star"></span>
             <span class="star"></span>
@@ -29,8 +29,9 @@
         </div>
 
             <form id="update-form">
-                <label for="rating-select">How healthy is this plant?:</label>
-                <select id="rating-select" name="rating">
+                <input type="date" id="update-date" value=""></input>
+                <label for="health-rating-select">How healthy is this plant?:</label>
+                <select id="health-rating-select" name="rating">
                     <option value="1">Very Unhealthy</option>
                     <option value="2">Needs Attention</option>
                     <option value="3">Doing Fine</option>
@@ -40,7 +41,7 @@
                 <textarea name="" id="update-input" class="form-control" placeholder="Update" rows="1" columns="5" ></textarea>
                 <button id="submit-update-button" type="submit" class="btn btn-primary mt-1">Add Update</button>
             </form>
-        <div id="updates-container">
+        <div id="update-container">
             <!-- Updates will be populated here -->
         </div>
     </div>

@@ -36,6 +36,7 @@ const handleSubmit = async(event) => {
         plantNotes: document.getElementById("plant-notes-input").value
     }
     await addPlant(bodyObj);
+
     document.getElementById("plant-input").value = ''
     document.getElementById("photo-input").value = ''
     document.getElementById("plant-notes-input").value = ''
@@ -88,6 +89,7 @@ async function getPlants(userId){
 //
 //    return getPlants(userId);
 //}
+
 //delete a plant
 async function handleDelete(plantId){
     await fetch(baseUrl + plantId, {
@@ -103,20 +105,23 @@ async function handleDelete(plantId){
 //accept an array of objects, loop through array, create card for each item, append to container
 const createPlantCards = (array) => {
     plantContainer.innerHTML = ''
-    array.forEach(obj => {
+
+    array.forEach(plant => {
         let plantCard = document.createElement("div")
         plantCard.classList.add("plant-card")
+
         plantCard.innerHTML = `
-       <a href"plant.html?id=${obj.id}">
-            <div class="card d-flex" style="width: 18rem; height:18rem;">
-                <div class="card-body d-flex flex-column justify-content-between" style="height: available">
-                    <p class="card-plantName">${obj.plantName}</p>
-                    <img class="card-photoUrl" src="${obj.photoUrl}"/>
-       </a>
-                    <p class="card-plantNotes">${obj.plantNotes}</p>
+
+                <div class="card d-flex" style="width: 18rem; height:18rem;">
+                    <div class="card-body d-flex flex-column justify-content-between" style="height: available">
+                        <p class="card-plantName">${plant.plantName}</p>
+                   <a href="plant.html?id=${plant.id}">
+                       <img class="card-photoUrl" src="${plant.photoUrl}"/>
+                    </a>
+                    <p class="card-plantNotes">${plant.plantNotes}</p>
                     <div class="d-flex justify-content-between">
-                        <button class="btn btn-danger" onclick="handleDelete(${obj.id})">Delete</button>
-                        <button onclick="getPlantById(${obj.id})" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#plant-edit-modal">Edit</button>
+                        <button class="btn btn-danger" onclick="handleDelete(${plant.id})">Delete</button>
+                        <button onclick="getPlantById(${plant.id})" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#plant-edit-modal">Edit</button>
 
                     </div>
                 </div>
