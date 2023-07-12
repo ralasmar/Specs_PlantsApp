@@ -36,7 +36,7 @@ public class PlantController {
     public void updatePlant(@RequestBody PlantDto plantDto){
         plantService.updatePlantById(plantDto);
     }
-    //get a note by plant id
+    //get a plant by plant id
     @GetMapping("/{plantId}")
     public Optional<PlantDto> getPlantById(@PathVariable Long plantId){
         return plantService.getPlantById(plantId);

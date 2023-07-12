@@ -105,15 +105,14 @@ async function handleDelete(plantId){
 //accept an array of objects, loop through array, create card for each item, append to container
 const createPlantCards = (array) => {
     plantContainer.innerHTML = ''
-console.log(array)
+
     array.forEach(plant => {
         let plantCard = document.createElement("div")
         plantCard.classList.add("plant-card")
 
         plantCard.innerHTML = `
-
-                <div class="card d-flex" style="width: 30rem; height:30rem; margin: 30px">
-                    <div class="card-body d-flex flex-column justify-content-between" style="height: available">
+                <div class="card d-inline-flex" style="margin: 20px; background-color: pink; border-color: pink">
+                    <div class="card-body d-flex flex-column justify-content-between" >
                         <p class="card-plantName">${plant.plantName}</p>
                    <a href="plant.html?id=${plant.id}">
                        <img class="card-photoUrl" src="${plant.photoUrl}"/>
@@ -122,7 +121,6 @@ console.log(array)
                     <div class="d-flex justify-content-between">
                         <button class="btn btn-danger" onclick="handleDelete(${plant.id})">Delete</button>
                         <button onclick="getPlantById(${plant.id})" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#plant-edit-modal">Edit</button>
-
                     </div>
                 </div>
             </div>

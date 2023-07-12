@@ -1,17 +1,37 @@
+body{
+    background-color: pink
+}
+
 #submit-button{
     background-color: green;
 }
 
-.plant-card{
+.card d-flex{
     width: 50px;
-    length: 50px
+    length: 50px;
+    background-color: pink
 }
 
 .card-photoUrl {
-    width: 300px;
-    length: 300px
+    width: 400px;
+    length: 300px;
+    border-radius: 20px;
+    margin-top: 0px
+}
+.card-plantName {
+    font-weight: bold;
+    text-align: center
 }
 
 #app-name{
-    text-align: center
+    text-align: center;
+    margin-bottom: 0px
+}
+
+.form-group{
+    color: pink
+}
+
+#home-container{
+    background-color: pink
 }

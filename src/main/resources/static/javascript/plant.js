@@ -93,8 +93,7 @@ async function getUpdates(plantId){
     })
     if(response.status == 200){
         const updates = await response.json();
-        console.log(updates)
-console.log(updates)
+
         //clearing existing inputs
         updateContainer.innerHTML = "";
 
@@ -136,7 +135,7 @@ console.log(updates)
 //        .catch(err => console.error(err.message))
 //}
 async function handleUpdateDelete(updateId){
-    await fetch(baseUrl + updateId, {
+    await fetch(baseUrlUpdates + updateId, {
         method: "DELETE",
         headers: headers
     })
