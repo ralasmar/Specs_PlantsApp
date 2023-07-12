@@ -3,8 +3,13 @@
 }
 
 .plant-card{
-    width: 100px;
-    length: 100px
+    width: 50px;
+    length: 50px
+}
+
+.card-photoUrl {
+    width: 300px;
+    length: 300px
 }
 
 #app-name{

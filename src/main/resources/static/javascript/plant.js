@@ -1,11 +1,15 @@
+
+console.log("plant page")
 //get plant id from query parameter
 const urlParams = new URLSearchParams(window.location.search);
 const plantId = urlParams.get('id');
+console.log(plantId)
 const submitUpdateForm = document.getElementById("update-form")
 const updateContainer = document.getElementById("update-container")
 const cookieArr = document.cookie.split(";").map(cookie => cookie.trim().split("="))
 const userIdCookie = cookieArr.find(cookie => cookie[0] === "userId")
 const userId = userIdCookie[1]
+console.log(plantId)
 
 const headers = {
     'Content-Type': 'application/json'
@@ -28,36 +32,59 @@ async function getPlantDetails(plantId){
     document.getElementById("plant-update").textContent = data.plantNotes;
 
     const plantImg = document.getElementById("plant-image");
-    plantImg.src = data.image;
+    plantImg.src = data.photoUrl;
+    console.log(data)
 }
 
- const handleUpdateSubmit = async(event) => {
-    event.preventDefault()
-
-    let bodyObj = {
-        isHealthy: document.getElementById("health-rating-select").value,
-        date: document.getElementById("update-date").value,
-        updateBody: document.getElementById("update-input").value
-    }
-    console.log(bodyObj)
-
-    await addUpdate(bodyObj);
-
-    document.getElementById("health-rating-select").value = ''
-    document.getElementById("update-date").value = ''
-    document.getElementById("update-input").value = ''
- }
+// const handleUpdateSubmit = async(event) => {
+//    event.preventDefault()
+//
+//    let bodyObj = {
+//        isHealthy: document.getElementById("health-rating-select").value,
+//        date: document.getElementById("update-date").value,
+//        updateBody: document.getElementById("update-input").value
+//    }
+//    console.log(bodyObj)
+//
+//    await addUpdate(bodyObj);
+//
+//    document.getElementById("health-rating-select").value = ''
+//    document.getElementById("update-date").value = ''
+//    document.getElementById("update-input").value = ''
+// }
  //post a new update to a plant
-  async function addUpdate(update){
-        const response = await fetch(`${baseUrl}${plantId}$userId=${userId}`, {
-             method: "POST",
-             body: JSON.stringify(update),
-             headers: headers
-        })
-        .catch(err => console.error(err.message))
-        if(response.status == 200){
-             alert("Update Posted")
-             return getUpdates(plantId);
+  async function addUpdate(plantId){
+        const isHealthy = document.getElementById("health-rating-select")
+        const date = document.getElementById("update-date")
+        const updateBody= document.getElementById("update-input")
+
+        const health = isHealthy.value
+        const update = updateBody.value
+        const updateDate = date
+
+        let bodyObj = {
+            healthValue: parseInt(health),
+            update: update,
+            updateDate: updateDate
+        }
+        try {
+         const response = await fetch(`${baseUrl}${plantId}?userId=${userId}`, {
+               method: "POST",
+               body: JSON.stringify(bodyObj),
+               headers: headers
+         })
+         if(response.status == 200){
+               alert("Update Posted")
+
+         }
+         isHealthy.value = ""
+         updateBody.value = ""
+         date.value = ""
+
+         getUpdates(plantId)
+
+        } catch (error){
+            console.error("error submitting update", error)
         }
  }
 
@@ -69,7 +96,8 @@ async function getUpdates(plantId){
     })
     if(response.status == 200){
         const updates = await response.json();
-
+        console.log(updates)
+console.log(response)
         //clearing existing inputs
         updateContainer.innerHTML = "";
 
@@ -143,11 +171,11 @@ async function handleUpdateDelete(updateId){
 //    updateBody.innerText = obj.body
 //}
 
-//document.getElementById("update-form").addEventListener("submit", function (event){
-//    event.preventDefault()
-//    addUpdate(plantId)
-//})
+document.getElementById("update-form").addEventListener("submit", function (event){
+    event.preventDefault()
+    addUpdate(plantId)
+})
 
 getPlantDetails(plantId)
 getUpdates(plantId);
-submitUpdateForm.addEventListener("submit", handleUpdateSubmit)
+//submitUpdateForm.addEventListener("submit", handleUpdateSubmit)

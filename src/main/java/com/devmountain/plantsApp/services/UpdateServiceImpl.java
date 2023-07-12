@@ -52,13 +52,18 @@ public class UpdateServiceImpl implements UpdateService {
     //find all updates by plantId
     @Override
     public List<UpdateDto> getAllUpdatesByPlantId(Long plantId){
-        Optional<Plant> plantOptional = plantRepository.findById(plantId);
-        if(plantOptional.isPresent()){
-            List<Update> updateList = updateRepository.findAllByPlantEquals(plantOptional.get());
-            Optional<Object> plantList;
-            return updateList.stream().map(update -> new UpdateDto(update)).collect(Collectors.toList());
-        }
-        return Collections.emptyList();
+        List<Update> updates = updateRepository.findByPlantId(plantId);
+                return updates.stream()
+                        .map(update -> new UpdateDto(update))
+                        .collect(Collectors.toList());
+
+//        Optional<Plant> plantOptional = plantRepository.findById(plantId);
+//        if(plantOptional.isPresent()){
+//            List<Update> updateList = updateRepository.findAllByPlantEquals(plantOptional.get());
+//            Optional<Object> plantList;
+//            return updateList.stream().map(update -> new UpdateDto(update)).collect(Collectors.toList());
+//        }
+//        return Collections.emptyList();
     }
     //getting an update by id
     @Override

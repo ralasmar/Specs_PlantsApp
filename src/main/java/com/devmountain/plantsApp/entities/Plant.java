@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -37,7 +38,7 @@ public class Plant {
 
     @OneToMany(mappedBy = "plant", fetch= FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JsonManagedReference
-    private Set<Update> updateSet = new HashSet<>();
+   private Set<Update> updateSet = new HashSet<>();
 
     public Plant(PlantDto plantDto){
         if(plantDto.getPlantName() != null){

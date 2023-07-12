@@ -11,4 +11,6 @@ import java.util.List;
 @Repository
 public interface UpdateRepository extends JpaRepository<Update, Long> {
     List<Update> findAllByPlantEquals(Plant plant);
+
+    List<Update> findByPlantId(Long plantId);
 }
