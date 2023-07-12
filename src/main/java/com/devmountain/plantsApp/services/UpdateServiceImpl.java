@@ -54,27 +54,14 @@ public class UpdateServiceImpl implements UpdateService {
     @Override
     public List<UpdateDto> getAllUpdatesByPlantId(Long plantId) {
         Optional<Plant> plantOptional = plantRepository.findById(plantId);
-        System.out.println(plantId);
-        if (plantOptional.isPresent()) {
-            Plant plant = plantOptional.get();
-            Set<Update> updates = plant.getUpdateSet();
-            System.out.println(updates);
-            return updates.stream()
-                    .map(UpdateDto::new)
-                    .collect(Collectors.toList());
-        } else {
-            System.out.print("error getting updates");
-            return null;
+        if(plantOptional.isPresent()){
+            List<Update> updateList = updateRepository.findAllByPlantEquals(plantOptional.get());
+            Optional<Object> plantList;
+            return updateList.stream().map(update -> new UpdateDto(update)).collect(Collectors.toList());
         }
-    }
+        return Collections.emptyList();
+        }
 
-//        Optional<Plant> plantOptional = plantRepository.findById(plantId);
-//        if(plantOptional.isPresent()){
-//            List<Update> updateList = updateRepository.findAllByPlantEquals(plantOptional.get());
-//            Optional<Object> plantList;
-//            return updateList.stream().map(update -> new UpdateDto(update)).collect(Collectors.toList());
-//        }
-//        return Collections.emptyList();
     //getting an update by id
     @Override
     public Optional<UpdateDto> getUpdateById(Long updateId){
