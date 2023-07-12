@@ -1,20 +1,17 @@
-
-console.log("plant page")
 //get plant id from query parameter
 const urlParams = new URLSearchParams(window.location.search);
 const plantId = urlParams.get('id');
-console.log(plantId)
-const submitUpdateForm = document.getElementById("update-form")
+//const submitUpdateForm = document.getElementById("update-form")
 const updateContainer = document.getElementById("update-container")
 const cookieArr = document.cookie.split(";").map(cookie => cookie.trim().split("="))
 const userIdCookie = cookieArr.find(cookie => cookie[0] === "userId")
 const userId = userIdCookie[1]
-console.log(plantId)
 
 const headers = {
     'Content-Type': 'application/json'
 }
 const baseUrl = "http://localhost:8080/api/plants/"
+const baseUrlUpdates = "http://localhost:8080/api/updates/"
 
 //CRUD FUNCTIONS FOR POSTING AND DELETING UPDATES
 
@@ -60,15 +57,15 @@ async function getPlantDetails(plantId){
 
         const health = isHealthy.value
         const update = updateBody.value
-        const updateDate = date
+        const updateDate = date.value
 
         let bodyObj = {
-            healthValue: parseInt(health),
-            update: update,
-            updateDate: updateDate
+            isHealthy: parseInt(health),
+            updateBody: update,
+            date: updateDate
         }
         try {
-         const response = await fetch(`${baseUrl}${plantId}?userId=${userId}`, {
+         const response = await fetch(`${baseUrlUpdates}plant/${plantId}`, {
                method: "POST",
                body: JSON.stringify(bodyObj),
                headers: headers
@@ -90,14 +87,14 @@ async function getPlantDetails(plantId){
 
 async function getUpdates(plantId){
    try {
-    const response = await fetch(`${baseUrl}${plantId}`, {
+    const response = await fetch(`${baseUrlUpdates}plant/${plantId}`, {
         method: "GET",
         headers: headers
     })
     if(response.status == 200){
         const updates = await response.json();
         console.log(updates)
-console.log(response)
+console.log(updates)
         //clearing existing inputs
         updateContainer.innerHTML = "";
 

@@ -51,4 +51,8 @@ public class Plant {
             this.photoUrl = plantDto.getPhotoUrl();
         }
     }
+    public Plant(PlantDto plantDto, Set<Update> updateSet) {
+        this(plantDto);
+        this.updateSet = updateSet;
+    }
 }
