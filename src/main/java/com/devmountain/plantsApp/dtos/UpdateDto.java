@@ -14,7 +14,7 @@ public class UpdateDto implements Serializable {
     private Long id;
     private String updateBody;
     private String date;
-    private Boolean isHealthy;
+    private String isHealthy;
     private PlantDto plantDto;
 
     public UpdateDto(Update update){

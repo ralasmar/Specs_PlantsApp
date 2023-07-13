@@ -28,29 +28,48 @@ function handleLogout(){
 
 //CRUD OPERATIONS--------------------------------------------------------------
 //form that submits new plants
-const handleSubmit = async(event) => {
-    event.preventDefault()
-    let bodyObj = {
-        plantName: document.getElementById("plant-input").value,
-        photoUrl: document.getElementById("photo-input").value,
-        plantNotes: document.getElementById("plant-notes-input").value
-    }
-    await addPlant(bodyObj);
+//const handleSubmit = async(event) => {
+//
+//    let bodyObj = {
+//        plantName: document.getElementById("plant-input").value,
+//        photoUrl: document.getElementById("photo-input").value,
+//        plantNotes: document.getElementById("plant-notes-input").value
+//    }
+//    await addPlant(bodyObj);
+//
+//     document.getElementById("plant-input").value = ''
+//     document.getElementById("photo-input").value = ''
+//     document.getElementById("plant-notes-input").value = ''
+//
+//}
 
-    document.getElementById("plant-input").value = ''
-    document.getElementById("photo-input").value = ''
-    document.getElementById("plant-notes-input").value = ''
-}
 async function addPlant(obj){
+    event.preventDefault()
+    const plantNameInput = document.getElementById("plant-input")
+    const photoUrlInput = document.getElementById("photo-input")
+    const plantNotesInput = document.getElementById("plant-notes-input")
+
+    const name = plantNameInput.value
+    const photo = photoUrlInput.value
+    const notes = plantNotesInput.value
+
+    let bodyObj = {
+        plantName: name,
+        photoUrl: photo,
+        plantNotes: notes
+}
     const response = await fetch(`${baseUrl}user/${userId}`,{
         method: "POST",
-        body: JSON.stringify(obj),
+        body: JSON.stringify(bodyObj),
         headers: headers
     })
         .catch(err => console.error(err.message))
     if(response.status == 200){
         return getPlants(userId);
     }
+    plantNameInput.value = ""
+    photoUrlInput.value = ""
+    plantNotesInput.value = ""
 }
 //retrieve plants that are associated with user, create cards for them, append to container
 async function getPlants(userId){
@@ -62,8 +81,99 @@ async function getPlants(userId){
         .then(data => createPlantCards(data))
         .catch(err => console.error(err))
 }
+//edit a plant
+async function editPlant(plant){
+    //popup window for editing
+    const width = 350;
+    const height = 250;
+    const left = window.innerWidth / 2 - width / 2;
+    const top = window.innerHeight / 2 - height / 2;
+    const popupWindow = window.open("", "Edit Plant", `width=${width}, height=${height}, top=${top}, left=${left}`);
 
-//update a plant
+    //creating HTML elements for the popup window
+    const form = document.createElement("form")
+    const editHeading = document.createElement("h1")
+    const plantLabel = document.createElement("label")
+    const plantNameInput = document.createElement("input")
+    const photoLabel = document.createElement("label")
+    const photoUrlInput = document.createElement("input")
+    const plantNotesLabel = document.createElement("label")
+    const plantNotesInput = document.createElement("input")
+    const submitButton = document.createElement("button")
+
+    //setting content for the form elements
+    editHeading.innerText = "Edit Plant"
+    plantLabel.innerText = "Plant name: "
+    photoLabel.innerText = "Photo Url: "
+    plantNotesLabel.innerText = "Notes: "
+    submitButton.type = "submit"
+    submitButton.innerText = "Update"
+
+    //inputting existing values for name, photo, and notes
+    plantNameInput.value = plant.plantName
+    console.log(plant)
+    console.log(plant.plantNameInput)
+    photoUrlInput.value = plant.photoUrl
+    plantNotesInput.value = plant.plantNotes
+
+    //adding form elements
+    form.appendChild(document.createElement("br"));
+    form.appendChild(plantLabel);
+    form.appendChild(plantNameInput);
+    form.appendChild(document.createElement("br"));
+    form.appendChild(photoLabel);
+    form.appendChild(photoUrlInput);
+    form.appendChild(document.createElement("br"));
+    form.appendChild(plantNotesLabel);
+    form.appendChild(plantNotesInput);
+    form.appendChild(document.createElement("br"));
+    form.appendChild(document.createElement("br"));
+    form.appendChild(submitButton);
+
+    //appending form to popup window
+    popupWindow.document.body.appendChild(form)
+
+    //adding an event listener
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault()
+
+        //retrieve updated values
+        const updatedName = plantNameInput.value
+        const updatedPhoto = photoUrlInput.value
+        const updatedNotes = plantNotesInput.value
+
+        popupWindow.close()
+
+        let bodyObj = {
+            plantName: updatedName,
+            photoUrl: updatedPhoto,
+            plantNotes: updatedNotes
+        }
+
+        try {
+            const response = await fetch(`${baseUrl}${plant.id}`,{
+                method: "PUT",
+                headers: headers,
+                body: JSON.stringify(bodyObj)
+            })
+
+            if(response.status == 200){
+                alert("Plant has been updated")
+                getPlants(userId)
+                console.log(plant)
+                console.log(plant.plantName)
+            } else {
+                console.error("error updating plant", response.status)
+            }
+        } catch (error){
+            console.error("Error updating plant", error)
+        }
+    })
+}
+
+
+
+////update a plant
 //async function getPlantById(plantId){
 //    await fetch(baseUrl + plantId, {
 //        method: "GET",
@@ -113,14 +223,14 @@ const createPlantCards = (array) => {
         plantCard.innerHTML = `
                 <div class="card d-inline-flex" style="margin: 20px; background-color: pink; border-color: pink">
                     <div class="card-body d-flex flex-column justify-content-between" >
-                        <p class="card-plantName">${plant.plantName}</p>
+                        <p id="card-plant-input" class="card-plantName">${plant.plantName}</p>
                    <a href="plant.html?id=${plant.id}">
                        <img class="card-photoUrl" src="${plant.photoUrl}"/>
                     </a>
                     <p class="card-plantNotes">${plant.plantNotes}</p>
                     <div class="d-flex justify-content-between">
                         <button class="btn btn-danger" onclick="handleDelete(${plant.id})">Delete</button>
-                        <button onclick="getPlantById(${plant.id})" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#plant-edit-modal">Edit</button>
+                        <button onclick="editPlant(${plant.id})" type="button" class="btn btn-primary">Edit</button>
                     </div>
                 </div>
             </div>
@@ -130,18 +240,21 @@ const createPlantCards = (array) => {
     })
 }
 //method which accepts an object as an argument and uses it to populate fields within the modal and assign a data tag to the save button element
-const populateModal = (obj) => {
-    plantBody.innerText = ''
-    plantBody.innerText = obj.body
-    //updatePlantBtn.setAttribute('data-plant-id', obj.id)
-}
+//const populateModal = (obj) => {
+//    plantBody.innerText = ''
+//    plantBody.innerText = obj.body
+//    updatePlantBtn.setAttribute('data-plant-id', obj.id)
+//}
 //invoke getPlants method
 getPlants(userId);
 
-
-
 //event listeners
-submitForm.addEventListener("submit", handleSubmit)
+document.getElementById("plant-form").addEventListener("submit", function(event){
+    event.preventDefault()
+    addPlant(userId)
+})
+
+//submitForm.addEventListener("submit", handleSubmit)
 
 //updatePlantBtn.addEventListener("click", (event) => {
 //    let plantId = event.target.getAttribute('data-plant-id')

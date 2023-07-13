@@ -32,7 +32,7 @@ public class PlantController {
         plantService.deletePlantById(plantId);
     }
     //update an existing plant
-    @PutMapping
+    @PutMapping("/{plantId}")
     public void updatePlant(@RequestBody PlantDto plantDto){
         plantService.updatePlantById(plantDto);
     }

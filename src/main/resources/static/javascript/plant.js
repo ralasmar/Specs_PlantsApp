@@ -55,12 +55,12 @@ async function getPlantDetails(plantId){
         const date = document.getElementById("update-date")
         const updateBody= document.getElementById("update-input")
 
-        const health = isHealthy.value
+        const updateHealth = isHealthy.value
         const update = updateBody.value
         const updateDate = date.value
 
         let bodyObj = {
-            isHealthy: parseInt(health),
+            isHealthy: updateHealth,
             updateBody: update,
             date: updateDate
         }
@@ -116,7 +116,7 @@ async function getUpdates(plantId){
                     deleteBtn.addEventListener("click", () => handleUpdateDelete(update.id))
 
                     updateCard.appendChild(deleteBtn)
-                    updateContainer.appendChild(updateCard)
+                    updateContainer.insertBefore(updateCard, updateContainer.firstChild)
         })
       } else {
         console.error("error getting updates", response.status)

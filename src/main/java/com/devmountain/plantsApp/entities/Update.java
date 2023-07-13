@@ -24,7 +24,7 @@ public class Update {
     private String date;
 
     @Column
-    private Boolean isHealthy;
+    private String isHealthy;
 
     @ManyToOne
     @JsonBackReference
