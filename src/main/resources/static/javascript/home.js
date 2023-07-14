@@ -8,9 +8,17 @@ const submitForm = document.getElementById("plant-form")
 const plantContainer = document.getElementById("plant-container")
 
 //modal elements
-//let plantBody = document.getElementById('plant-body')
-//let updateBody = document.getElementById('update-body')
-//let updatePlantBtn = document.getElementById('update-plant-button')
+let plantBody = document.getElementById('plant-body')
+let updateBody = document.getElementById('update-body')
+let updatePlantBtn = document.getElementById('update-plant-button')
+
+  const name = document.getElementById("plantName")
+    const photo = document.getElementById("plantPhoto")
+    const notes = document.getElementById("plantNotes")
+    const modal = document.querySelector(".modal-footer")
+
+
+
 
 
 const headers = {
@@ -49,14 +57,14 @@ async function addPlant(plantId){
     const photoUrlInput = document.getElementById("photo-input")
     const plantNotesInput = document.getElementById("plant-notes-input")
 
-    const name = plantNameInput.value
-    const photo = photoUrlInput.value
-    const notes = plantNotesInput.value
+//    const name = plantNameInput.value
+//    const photo = photoUrlInput.value
+//    const notes = plantNotesInput.value
 
     let bodyObj = {
-        plantName: name,
-        photoUrl: photo,
-        plantNotes: notes
+        plantName: plantNameInput.value,
+        photoUrl: photoUrlInput.value,
+        plantNotes: plantNotesInput.value
 }
     const response = await fetch(`${baseUrl}user/${userId}`,{
         method: "POST",
@@ -81,19 +89,7 @@ async function getPlants(userId){
         .then(data => createPlantCards(data))
         .catch(err => console.error(err))
 }
-
-
-//edit a plant
-async function editPlant(plant){
-
-    //popup window for editing
-    const width = 350;
-    const height = 250;
-    const left = window.innerWidth / 2 - width / 2;
-    const top = window.innerHeight / 2 - height / 2;
-    const popupWindow = window.open("", "Edit Plant", `width=${width}, height=${height}, top=${top}, left=${left}`);
-
-    //creating HTML elements for the popup window
+ //creating HTML elements for the popup window
     const form = document.createElement("form")
     const editHeading = document.createElement("h1")
     const plantLabel = document.createElement("label")
@@ -103,6 +99,17 @@ async function editPlant(plant){
     const plantNotesLabel = document.createElement("label")
     const plantNotesInput = document.createElement("input")
     const submitButton = document.createElement("button")
+
+//edit a plant
+async function editPlant(plant){
+
+    console.log(event.currentTarget)
+    //popup window for editing
+    const width = 350;
+    const height = 250;
+    const left = window.innerWidth / 2 - width / 2;
+    const top = window.innerHeight / 2 - height / 2;
+    const popupWindow = window.open("", "Edit Plant", `width=${width}, height=${height}, top=${top}, left=${left}`);
 
     //setting content for the form elements
     editHeading.innerText = "Edit Plant"
@@ -141,16 +148,16 @@ async function editPlant(plant){
         event.preventDefault()
 
         //retrieve updated values
-        const updatedName = plantNameInput.value
-        const updatedPhoto = photoUrlInput.value
-        const updatedNotes = plantNotesInput.value
+//        const updatedName = plantNameInput.value
+//        const updatedPhoto = photoUrlInput.value
+//        const updatedNotes = plantNotesInput.value
 
         popupWindow.close()
 
         let bodyObj = {
-            plantName: updatedName,
-            photoUrl: updatedPhoto,
-            plantNotes: updatedNotes
+            plantName: plantNameInput.value,
+            photoUrl: photoUrlInput.value,
+            plantNotes: plantNotesInput.value
         }
 
         try {
@@ -175,31 +182,33 @@ async function editPlant(plant){
 }
 
 ////update a plant
-//async function getPlantById(plantId){
-//    await fetch(baseUrl + plantId, {
-//        method: "GET",
-//        headers: headers
-//    })
-//        .then(res => res.json())
-//        .then(data => populateModal(data))
-//        .catch(err => console.error(err.message))
-//}
-//async function handlePlantEdit(plantId){
-//    let bodyObj = {
-//        id: plantId,
-//        plantName: document.getElementById("plant-input").value,
-//        photoUrl: document.getElementById("photo-input").value,
-//        plantNotes: document.getElementById("plant-notes-input").value
-//        }
-//    await fetch(baseUrl, {
-//        method: "PUT",
-//        body: JSON.stringify(bodyObj),
-//        headers: headers
-//    })
-//        .catch(err => console.error(err))
-//
-//    return getPlants(userId);
-//}
+async function getPlantById(plantId){
+    await fetch(baseUrl + plantId, {
+        method: "GET",
+        headers: headers
+    })
+        .then(res => res.json())
+        .then(data => populateModal(data))
+        .catch(err => console.error(err.message))
+}
+async function handlePlantEdit(event){
+const plantId = event.target.parentNode.id
+
+    let bodyObj = {
+        id: plantId,
+        plantName: name.value,
+        photoUrl: photo.value,
+        plantNotes:notes.value
+        }
+    await fetch(`${baseUrl}${plantId}`, {
+        method: "PUT",
+        body: JSON.stringify(bodyObj),
+        headers: headers
+    })
+        .catch(err => console.error(err))
+
+    return getPlants(userId);
+}
 
 //delete a plant
 async function handleDelete(plantId){
@@ -218,6 +227,7 @@ const createPlantCards = (plants) => {
     plantContainer.innerHTML = ''
 
     plants.forEach(plant => {
+    console.log(plant)
         let plantCard = document.createElement("div")
         plantCard.classList.add("plant-card")
 
@@ -231,24 +241,37 @@ const createPlantCards = (plants) => {
                     <p id="card-notes-input" class="card-plantNotes">${plant.plantNotes}</p>
                     <div class="d-flex justify-content-between">
                         <button class="btn btn-danger" onclick="handleDelete(${plant.id})">Delete</button>
-                        <button onclick="editPlant(${plant.id})" type="button" class="btn btn-primary">Edit</button>
+                         <button onclick="getPlantById(${plant.id})" type="button" class="btn btn-primary"
+                                                data-bs-toggle="modal" data-bs-target="#plant-edit-modal">
+                                                Edit</button>
+
                     </div>
                 </div>
             </div>
         `;
 
         plantContainer.append(plantCard)
+
     })
 }
 
 
 
 //method which accepts an object as an argument and uses it to populate fields within the modal and assign a data tag to the save button element
-//const populateModal = (obj) => {
-//    plantBody.innerText = ''
-//    plantBody.innerText = obj.body
-//    updatePlantBtn.setAttribute('data-plant-id', obj.id)
-//}
+const populateModal = (obj) => {
+
+    name.innerText = ""
+    photo.innerText = ""
+    notes.innerText = ""
+    modal.id = obj.id
+
+    name.innerText = obj.plantName
+    photo.innerText = obj.photoUrl
+    notes.innerText = obj.plantNotes
+
+
+}
+
 //invoke getPlants method
 getPlants(userId);
 
