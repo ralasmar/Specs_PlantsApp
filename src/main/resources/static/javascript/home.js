@@ -8,9 +8,9 @@ const submitForm = document.getElementById("plant-form")
 const plantContainer = document.getElementById("plant-container")
 
 //modal elements
-let plantBody = document.getElementById('plant-body')
-let updateBody = document.getElementById('update-body')
-let updatePlantBtn = document.getElementById('update-plant-button')
+//let plantBody = document.getElementById('plant-body')
+//let updateBody = document.getElementById('update-body')
+//let updatePlantBtn = document.getElementById('update-plant-button')
 
 
 const headers = {
@@ -43,7 +43,7 @@ function handleLogout(){
 //
 //}
 
-async function addPlant(obj){
+async function addPlant(plantId){
     event.preventDefault()
     const plantNameInput = document.getElementById("plant-input")
     const photoUrlInput = document.getElementById("photo-input")
@@ -73,16 +73,19 @@ async function addPlant(obj){
 }
 //retrieve plants that are associated with user, create cards for them, append to container
 async function getPlants(userId){
-    await fetch(`${baseUrl}user/${userId}`,{
-        method: "GET",
-        headers: headers
-    })
+   await fetch(`${baseUrl}user/${userId}`,{
+            method: "GET",
+            headers: headers
+   })
         .then(response => response.json())
         .then(data => createPlantCards(data))
         .catch(err => console.error(err))
 }
+
+
 //edit a plant
 async function editPlant(plant){
+
     //popup window for editing
     const width = 350;
     const height = 250;
@@ -112,7 +115,7 @@ async function editPlant(plant){
     //inputting existing values for name, photo, and notes
     plantNameInput.value = plant.plantName
     console.log(plant)
-    console.log(plant.plantNameInput)
+    console.log(plant.plantName)
     photoUrlInput.value = plant.photoUrl
     plantNotesInput.value = plant.plantNotes
 
@@ -171,8 +174,6 @@ async function editPlant(plant){
     })
 }
 
-
-
 ////update a plant
 //async function getPlantById(plantId){
 //    await fetch(baseUrl + plantId, {
@@ -213,10 +214,10 @@ async function handleDelete(plantId){
 //HELPER FUNCTIONS------------------------------------------------------
 
 //accept an array of objects, loop through array, create card for each item, append to container
-const createPlantCards = (array) => {
+const createPlantCards = (plants) => {
     plantContainer.innerHTML = ''
 
-    array.forEach(plant => {
+    plants.forEach(plant => {
         let plantCard = document.createElement("div")
         plantCard.classList.add("plant-card")
 
@@ -225,9 +226,9 @@ const createPlantCards = (array) => {
                     <div class="card-body d-flex flex-column justify-content-between" >
                         <p id="card-plant-input" class="card-plantName">${plant.plantName}</p>
                    <a href="plant.html?id=${plant.id}">
-                       <img class="card-photoUrl" src="${plant.photoUrl}"/>
+                       <img id="card-photo-input" class="card-photoUrl" src="${plant.photoUrl}"/>
                     </a>
-                    <p class="card-plantNotes">${plant.plantNotes}</p>
+                    <p id="card-notes-input" class="card-plantNotes">${plant.plantNotes}</p>
                     <div class="d-flex justify-content-between">
                         <button class="btn btn-danger" onclick="handleDelete(${plant.id})">Delete</button>
                         <button onclick="editPlant(${plant.id})" type="button" class="btn btn-primary">Edit</button>
@@ -239,6 +240,9 @@ const createPlantCards = (array) => {
         plantContainer.append(plantCard)
     })
 }
+
+
+
 //method which accepts an object as an argument and uses it to populate fields within the modal and assign a data tag to the save button element
 //const populateModal = (obj) => {
 //    plantBody.innerText = ''
