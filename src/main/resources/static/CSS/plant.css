@@ -1,4 +1,79 @@
+body{
+    background-color: pink
+}
+
+#leaf-logo{
+    float: right
+}
+#home-btn{
+    background-color: green;
+    border-color:green;
+    border-radius: 8px;
+    float:right;
+    color:white;
+
+}
+#logout-btn{
+    background-color:yellow;
+    border-color: yellow;
+    border-radius: 8px
+}
+
 .plant-image{
     height:200px;
-    width: 200px
+    width: 200px;
+    border-radius: 12px
+}
+
+#update-container{
+    margin-top: 60px;
+    width: 400px;
+    height: 100px;
+    display: flex;
+    flex-wrap: wrap
+}
+
+.update-date{
+    font-weight: bold;
+    padding: 0px;
+    margin-bottom: 0px;
+    position:justify-right;
+    color: white
+}
+
+.update-health{
+    margin-top: 0px;
+    color: white
+}
+.update-body{
+    margin-bottom: 10px;
+    color: white
+}
+#submit-update-button{
+    background-color: green
+}
+.update-card{
+    width: 400px;
+    height: 150px;
+    background-color: green;
+    border-radius: 20px;
+    display: flex;
+    flex-wrap: wrap
+}
+
+#update-form{
+    margin-top: 50px
+}
+
+#update-input{
+    margin-top: 20px
+}
+
+#delete-btn{
+    background-color: yellow;
+    border-color: yellow;
+    border-radius: 12px;
+    margin-bottom: 40px;
+    margin-top: 5px;
+    float:right
 }

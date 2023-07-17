@@ -234,17 +234,15 @@ const createPlantCards = (plants) => {
         plantCard.innerHTML = `
                 <div class="card d-inline-flex" style="margin: 20px; background-color: pink; border-color: pink">
                     <div class="card-body d-flex flex-column justify-content-between" >
-                        <p id="card-plant-input" class="card-plantName">${plant.plantName}</p>
-                   <a href="plant.html?id=${plant.id}">
-                       <img id="card-photo-input" class="card-photoUrl" src="${plant.photoUrl}"/>
-                    </a>
-                    <p id="card-notes-input" class="card-plantNotes">${plant.plantNotes}</p>
-                    <div class="d-flex justify-content-between">
-                        <button class="btn btn-danger" onclick="handleDelete(${plant.id})">Delete</button>
-                         <button onclick="getPlantById(${plant.id})" type="button" class="btn btn-primary"
-                                                data-bs-toggle="modal" data-bs-target="#plant-edit-modal">
-                                                Edit</button>
-
+                            <p id="card-plant-input" class="card-plantName">${plant.plantName}</p>
+                       <a href="plant.html?id=${plant.id}">
+                           <img id="card-photo-input" class="card-photoUrl" src="${plant.photoUrl}"/>
+                        </a>
+                        <p id="card-notes-input" class="card-plantNotes">${plant.plantNotes}</p>
+                        <div class="d-flex justify-content-between">
+                        <button onclick="getPlantById(${plant.id})" type="button" class="btn btn-primary"data-bs-toggle="modal" style="background-color: green; border-color: green" data-bs-target="#plant-edit-modal">
+                        Edit</button>
+                        <button id="delete-btn-plant-card" class="btn btn-danger" style="background-color: yellow; border-color: yellow; color: black" onclick="handleDelete(${plant.id})">Delete</button>
                     </div>
                 </div>
             </div>

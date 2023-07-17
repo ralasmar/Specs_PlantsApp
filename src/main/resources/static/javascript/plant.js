@@ -102,10 +102,10 @@ async function getUpdates(plantId){
             const updateCard = document.createElement("div")
             updateCard.classList.add("update")
             updateCard.innerHTML = `
-                        <div class="card d-flex" style="width: 18rem; height:18rem;">
-                            <div class="card-body d-flex flex-column justify-content-between" style="height: available">
-                            <p class="update-health">${update.isHealthy}</p>
+                        <div class="update-card" >
+                            <div class="card-body d-flex flex-column justify-content-between">
                             <p class="update-date">${update.date}</p>
+                            <p class="update-health">Healthiness Level: ${update.isHealthy}</p>
                             <p class="update-body">${update.updateBody}</p>
                             </div>
                         </div>

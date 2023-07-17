@@ -2,8 +2,20 @@ body{
     background-color: pink
 }
 
+#logout-btn-home{
+    background-color: yellow;
+    color: black;
+    border-color: yellow;
+    float: right
+}
+
 #submit-button{
     background-color: green;
+    border-color: green
+}
+.plant-card{
+    display: flex;
+    flex-wrap: wrap
 }
 
 .card d-flex{
@@ -23,6 +35,12 @@ body{
     text-align: center
 }
 
+#delete-btn-plant-card{
+    background-color: yellow;
+    border-color: yellow;
+    border-radius: 8px
+}
+
 #app-name{
     text-align: center;
     margin-bottom: 0px
@@ -35,3 +53,4 @@ body{
 #home-container{
     background-color: pink
 }
+
