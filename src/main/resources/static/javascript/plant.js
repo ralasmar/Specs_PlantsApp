@@ -103,7 +103,7 @@ async function getUpdates(plantId){
             updateCard.classList.add("update")
             updateCard.innerHTML = `
                         <div class="update-card" >
-                            <div class="card-body d-flex flex-column justify-content-between">
+                            <div class="card-body">
                             <p class="update-date">${update.date}</p>
                             <p class="update-health">Healthiness Level: ${update.isHealthy}</p>
                             <p class="update-body">${update.updateBody}</p>
